@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Routes, Route } from 'react-router-dom'; 
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Header from './components/Header';
@@ -23,6 +23,7 @@ function App() {
   return (
     <AppContainer>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/movies" element={
