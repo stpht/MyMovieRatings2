@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import SearchResults from './SearchResults'; // Import SearchResults
 
 function SearchBar() {
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]); // Add results state
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(
         `http://www.omdbapi.com/?apikey=d15532d4&s=${query}`
       );
-      console.log(response.data); // For now, just log the data
-      // In the next step, we'll handle displaying the data
+      if (response.data.Search) {
+        setResults(response.data.Search); // Update results state
+      } else {
+        setResults([]); // Clear results if no search results
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
+      setResults([]); // Clear results on error
     }
   };
 
@@ -30,6 +36,7 @@ function SearchBar() {
         }}
       />
       <button onClick={handleSearch}>Search</button>
+      <SearchResults results={results} /> {/* Render SearchResults */}
     </div>
   );
 }
