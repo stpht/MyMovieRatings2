@@ -48,36 +48,31 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    // Authentication logic will go here later
+    e.preventDefault();
     console.log('Login submitted:', { username, password });
   };
 
   return (
-    <div>
+    <GlassPanel>
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+      <Form onSubmit={handleSubmit}>
+        <Label htmlFor="username">Username:</Label>
+        <Input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Label htmlFor="password">Password:</Label>
+        <Input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button type="submit">Login</Button>
+      </Form>
+    </GlassPanel>
   );
 }
 

@@ -50,44 +50,37 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Registration logic will go here later
     console.log('Registration submitted:', { username, password, confirmPassword });
   };
 
   return (
-    <div>
+    <GlassPanel>
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-    </div>
+      <Form onSubmit={handleSubmit}>
+        <Label htmlFor="username">Username:</Label>
+        <Input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Label htmlFor="password">Password:</Label>
+        <Input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Label htmlFor="confirmPassword">Confirm Password:</Label>
+        <Input
+          type="password"
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <Button type="submit">Register</Button>
+      </Form>
+    </GlassPanel>
   );
 }
 
