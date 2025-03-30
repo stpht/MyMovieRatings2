@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const GlassPanel = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -72,6 +73,9 @@ function Login() {
         />
         <Button type="submit">Login</Button>
       </Form>
+      <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </GlassPanel>
   );
 }
