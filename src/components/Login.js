@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    // Authentication logic will go here later
+    console.log('Login submitted:', { username, password });
+  };
+
   return (
     <div>
       <h2>Login</h2>
-      {/* Login form will go here */}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
