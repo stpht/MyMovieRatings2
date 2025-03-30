@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import useAuthStore from '../store';
 
 const GlassPanel = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -45,14 +46,18 @@ const Button = styled.button`
 `;
 
 function Register() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Registration submitted:', { username, password, confirmPassword });
-  };
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const login = useAuthStore((state) => state.login); // Get the login action
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log('Registration submitted:', { username, password, confirmPassword });
+      // Simulate successful registration (replace with actual API call later)
+      const userData = { username: username }; // Replace with actual user data from API
+      login(userData); // Call the login action to update the state
+    };
 
   return (
     <GlassPanel>
