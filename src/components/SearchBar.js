@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import SearchResults from './SearchResults';
 
-function SearchBar() {
+function SearchBar({ onSelect }) { // Receive onSelect as a prop
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -16,7 +16,7 @@ function SearchBar() {
     );
 
     setSuggestions(sortedResults.slice(0, 9));
-  }, [query]); // Add query as dependency
+  }, [query]);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -40,11 +40,12 @@ function SearchBar() {
     };
 
     fetchSuggestions();
-  }, [query, filterAndSortSuggestions]); // Add filterAndSortSuggestions as dependency
+  }, [query, filterAndSortSuggestions]);
 
   const handleSelect = (movie) => {
     setQuery(movie.Title);
     setSuggestions([]);
+    onSelect(movie); // Call parent's onSelect function
   };
 
   return (
