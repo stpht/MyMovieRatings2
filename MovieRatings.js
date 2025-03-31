@@ -1,9 +1,9 @@
-// MovieRatings.js
 import React, { useState, useEffect } from 'react';
 import RatingList from './RatingList';
 import RatingForm from './RatingForm';
+import MovieRatings from './MovieRatings';
 
-function MovieRatings({ movieId }) {
+function MovieDetails({ movieId }) {
   const [ratings, setRatings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,6 +41,7 @@ function MovieRatings({ movieId }) {
     <div>
       <RatingList ratings={ratings} />
       <RatingForm movieId={movieId} setRatings={setRatings} />
+      <MovieRatings movieId={movieId} />
     </div>
   );
 }

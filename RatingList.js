@@ -1,4 +1,3 @@
-// RatingList.js
 import React from 'react';
 
 function RatingList({ ratings }) {

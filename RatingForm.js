@@ -1,4 +1,3 @@
-// RatingForm.js
 import React, { useState } from 'react';
 
 function RatingForm({ movieId, setRatings }) {
