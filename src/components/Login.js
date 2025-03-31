@@ -54,10 +54,8 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', { // Change port to 5000
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
