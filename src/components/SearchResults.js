@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SearchResults({ results }) {
+function SearchResults({ results, onSelect }) {
   if (!results || !Array.isArray(results)) {
     return (
       <div>
@@ -14,7 +14,7 @@ function SearchResults({ results }) {
     <div>
       <h2>Search Results</h2>
       {results.map((movie) => (
-        <div key={movie.imdbID}>
+        <div key={movie.imdbID} onClick={() => onSelect(movie)}>
           <h3>{movie.Title}</h3>
           <p>{movie.Year}</p>
         </div>
