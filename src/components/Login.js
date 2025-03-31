@@ -72,8 +72,8 @@ function Login() {
         const errorData = await response.json();
         setError(errorData.message || 'Login failed.');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (error) {
+      console.error('Login error:', error);
     }
   };
 

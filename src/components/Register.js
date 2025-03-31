@@ -63,7 +63,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', { // Change port to 5000
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,8 +80,8 @@ function Register() {
         const errorData = await response.json();
         setError(errorData.message || 'Registration failed.');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (error) {
+      console.error('Registration error:', error);
     }
   };
 
