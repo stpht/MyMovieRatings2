@@ -12,6 +12,9 @@ const InfoPanel = styled.div`
   margin: 2rem auto;
   width: 400px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 function MovieInfoPanel({ movie }) {
@@ -31,7 +34,7 @@ function MovieInfoPanel({ movie }) {
 
       <div>
         <label>Rating:</label>
-        <input type="number" min="1" max="5" />
+        <input type="number" min="1" max="10" />
       </div>
 
       <div>

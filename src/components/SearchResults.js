@@ -1,19 +1,16 @@
-// src/components/SearchResults.js
 import React from 'react';
 import styled from 'styled-components';
 
 const SuggestionsPanel = styled.div`
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(220, 248, 255, 0.1); // Light pastel gradient
   border-radius: 10px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem;
   margin-top: 0.5rem;
-  width: 300px; /* Adjust width as needed */
-  position: absolute; /* Position below the search bar */
-  z-index: 10; /* Ensure it's above other elements */
+  width: 300px;
+  position: absolute;
+  z-index: 10;
 `;
 
 const SuggestionItem = styled.div`

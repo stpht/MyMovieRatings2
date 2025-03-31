@@ -44,7 +44,7 @@ function SearchBar({ onSelect }) { // Receive onSelect as a prop
 
   const handleSelect = (movie) => {
     setQuery(movie.Title);
-    setSuggestions([]);
+    setSuggestions([]); // Clear suggestions on select
     onSelect(movie); // Call parent's onSelect function
   };
 
@@ -56,7 +56,7 @@ function SearchBar({ onSelect }) { // Receive onSelect as a prop
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <SearchResults results={suggestions} onSelect={handleSelect} />
+      {query.length >= 3 && <SearchResults results={suggestions} onSelect={handleSelect} />}
     </div>
   );
 }
