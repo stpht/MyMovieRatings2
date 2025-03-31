@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import useAuthStore from '../store';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/useAuthStore';
 
 const GlassPanel = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -11,7 +11,7 @@ const GlassPanel = styled.div`
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 2rem;
-  margin-bottom: 1rem;
+  margin: auto;
   width: 300px;
 `;
 
@@ -54,8 +54,10 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', { // Change port to 5000
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,15 +67,15 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        login(data.user); // Update auth state
-        localStorage.setItem('token', data.token); // Store token
-        navigate('/'); // Redirect
+        login(data.user);
+        localStorage.setItem('token', data.token);
+        navigate('/movies'); // Redirect to app page
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Login failed.');
       }
-    } catch (error) {
-      console.error('Login error:', error);
+    } catch (err) {
+      setError('Network error. Please try again.');
     }
   };
 
@@ -98,9 +100,6 @@ function Login() {
         />
         <Button type="submit">Login</Button>
       </Form>
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
     </GlassPanel>
   );
 }

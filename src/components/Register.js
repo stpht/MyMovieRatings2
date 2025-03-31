@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import useAuthStore from '../store';
+import useAuthStore from '../store/useAuthStore';
 
 const GlassPanel = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -11,7 +11,7 @@ const GlassPanel = styled.div`
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 2rem;
-  margin-bottom: 1rem;
+  margin: auto;
   width: 300px;
 `;
 
@@ -55,7 +55,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
@@ -63,7 +63,7 @@ function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', { // Change port to 5000
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,15 +73,15 @@ function Register() {
 
       if (response.ok) {
         const data = await response.json();
-        login(data.user); // Update auth state
-        localStorage.setItem('token', data.token); // Store token
-        navigate('/'); // Redirect
+        login(data.user);
+        localStorage.setItem('token', data.token);
+        navigate('/movies'); // Redirect to app page
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Registration failed.');
       }
-    } catch (error) {
-      console.error('Registration error:', error);
+    } catch (err) {
+      setError('Network error. Please try again.');
     }
   };
 
@@ -113,9 +113,6 @@ function Register() {
         />
         <Button type="submit">Register</Button>
       </Form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
     </GlassPanel>
   );
 }
