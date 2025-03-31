@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Import Navigate
+import ProtectedRoute from './ProtectedRoute';
+import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Header from './components/Header';
@@ -15,27 +17,33 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-family: sans-serif;
 `;
 
 function App() {
   return (
-    <AppContainer>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/movies" element={
-          <>
-            <Header />
-            <SearchBar />
-            <SearchResults />
-            <WatchedMovieList />
-          </>
-        } />
-      </Routes>
-    </AppContainer>
+    <Router>
+      <AppContainer>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute>
+                <>
+                  <Header />
+                  <SearchBar />
+                  <SearchResults />
+                  <WatchedMovieList />
+                </>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<Home/>} />
+        </Routes>
+      </AppContainer>
+    </Router>
   );
 }
 
