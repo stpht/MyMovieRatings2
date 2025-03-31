@@ -22,28 +22,26 @@ const AppContainer = styled.div`
 
 function App() {
   return (
-    <Router>
-      <AppContainer>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/movies"
-            element={
-              <ProtectedRoute>
-                <>
-                  <Header />
-                  <SearchBar />
-                  <SearchResults />
-                  <WatchedMovieList />
-                </>
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/" element={<Home/>} />
-        </Routes>
-      </AppContainer>
-    </Router>
+    <AppContainer>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRoute>
+              <>
+                <Header />
+                <SearchBar />
+                <SearchResults />
+                <WatchedMovieList />
+              </>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Home/>} />
+      </Routes>
+    </AppContainer>
   );
 }
 
