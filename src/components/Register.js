@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store';
 
 const GlassPanel = styled.div`
@@ -46,22 +46,49 @@ const Button = styled.button`
 `;
 
 function Register() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const login = useAuthStore((state) => state.login); // Get the login action
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log('Registration submitted:', { username, password, confirmPassword });
-      // Simulate successful registration (replace with actual API call later)
-      const userData = { username: username }; // Replace with actual user data from API
-      login(userData); // Call the login action to update the state
-    };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const login = useAuthStore((state) => state.login);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(''); // Clear previous errors
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login(data.user); // Update auth state
+        localStorage.setItem('token', data.token); // Store token
+        navigate('/'); // Redirect
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Registration failed.');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    }
+  };
 
   return (
     <GlassPanel>
       <h2>Register</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="username">Username:</Label>
         <Input

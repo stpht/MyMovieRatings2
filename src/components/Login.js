@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store';
 
 const GlassPanel = styled.div`
@@ -48,20 +48,41 @@ const Button = styled.button`
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const login = useAuthStore((state) => state.login);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', { username, password });
-    // Simulate successful login (replace with actual API call later)
-    const userData = { username: username }; // Replace with actual user data from API
-    login(userData); // Call the login action to update the state
-  };
+    setError(''); // Clear previous errors
 
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login(data.user); // Update auth state
+        localStorage.setItem('token', data.token); // Store token
+        navigate('/'); // Redirect
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Login failed.');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    }
+  };
 
   return (
     <GlassPanel>
       <h2>Login</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="username">Username:</Label>
         <Input
