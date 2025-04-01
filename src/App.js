@@ -69,13 +69,12 @@ function App() {
   };
 
   const handleSaveMovie = (movieData) => {
-    // Save movieData to your database
-    console.log('Saving movie data:', movieData);
-    setSelectedMovie(null); // Close the panel after saving
+    console.log('Movie data saved successfully:', movieData);
+    setSelectedMovie(null);
   };
 
   const handleQueryChange = () => {
-    setSelectedMovie(null); // Clear selectedMovie when query changes
+    setSelectedMovie(null);
   };
 
   return (
@@ -100,7 +99,7 @@ function App() {
                   <TopRatedPanel>Top Rated</TopRatedPanel>
                   <WorstRatedPanel>Worst Rated</WorstRatedPanel>
                 </BottomPanelsContainer>
-                <SearchBar onSelect={handleMovieSelect} onQueryChange={handleQueryChange}/>
+                <SearchBar onSelect={handleMovieSelect} onQueryChange={handleQueryChange} />
                 <MovieInfoPanel movie={selectedMovie} onClose={handleCloseMovieInfo} onSave={handleSaveMovie} />
               </>
             </ProtectedRoute>
