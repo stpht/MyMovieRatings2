@@ -2,9 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import SearchResults from './SearchResults';
 
-function SearchBar({ onSelect, onQueryChange }) { // Receive onSelect as a prop
+function SearchBar({ onSelect, onQueryChange }) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+
+  console.log('onQueryChange prop:', onQueryChange); // Added console.log
 
   const filterAndSortSuggestions = useCallback((allResults) => {
     const filteredResults = allResults.filter((movie) =>
@@ -56,7 +58,9 @@ function SearchBar({ onSelect, onQueryChange }) { // Receive onSelect as a prop
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
-          onQueryChange(); // Call onQueryChange
+          if (onQueryChange) {
+            onQueryChange(); // Call onQueryChange if it exists
+          }
         }}
       />
       {query.length >= 3 && <SearchResults results={suggestions} onSelect={handleSelect} />}
