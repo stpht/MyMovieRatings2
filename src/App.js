@@ -4,7 +4,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './components/Login';
 import Register from './components/Register';
-import Header from './components/Header';
 import WatchedMovieList from './components/WatchedMovieList';
 import SearchBar from './components/SearchBar';
 import MovieInfoPanel from './components/MovieInfoPanel';
@@ -73,6 +72,10 @@ function App() {
     // Save movieData to your database
     console.log('Saving movie data:', movieData);
     setSelectedMovie(null); // Close the panel after saving
+  };
+
+  const handleQueryChange = () => {
+    setSelectedMovie(null); // Clear selectedMovie when query changes
   };
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import SearchResults from './SearchResults';
 
-function SearchBar({ onSelect }) { // Receive onSelect as a prop
+function SearchBar({ onSelect, onQueryChange }) { // Receive onSelect as a prop
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -54,7 +54,10 @@ function SearchBar({ onSelect }) { // Receive onSelect as a prop
         type="text"
         placeholder="Search for a movie..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          onQueryChange(); // Call onQueryChange
+        }}
       />
       {query.length >= 3 && <SearchResults results={suggestions} onSelect={handleSelect} />}
     </div>

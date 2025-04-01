@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const InfoPanel = styled.div`
@@ -17,30 +17,61 @@ const InfoPanel = styled.div`
   justify-content: center;
 `;
 
-function MovieInfoPanel({ movie }) {
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
+
+const SaveButton = styled.button`
+  flex: 1;
+  margin-right: 0.5rem;
+`;
+
+const CloseButton = styled.button`
+  flex: 1;
+  margin-left: 0.5rem;
+`;
+
+function MovieInfoPanel({ movie, onClose, onSave }) {
+  const [rating, setRating] = useState(1);
+  const [comment, setComment] = useState('');
+  const [watched, setWatched] = useState(false);
+
   if (!movie) return null;
+
+  const handleSave = () => {
+    onSave({
+      movieId: movie.imdbID,
+      rating,
+      comment,
+      watched,
+    });
+  };
+
 
   return (
     <InfoPanel>
-      <h2>{movie.Title}</h2>
-      <p>Year: {movie.Year}</p>
-      <p>Director: {movie.Director}</p>
-      {/* Add more movie info here */}
-
+      {/* ... (movie info) ... */}
       <div>
         <label>Watched:</label>
-        <input type="checkbox" />
+        <input type="checkbox" checked={watched} onChange={(e) => setWatched(e.target.checked)}/>
       </div>
 
       <div>
         <label>Rating:</label>
-        <input type="number" min="1" max="10" />
+        <input type="number" min="1" max="10" value={rating} onChange={(e) => setRating(parseInt(e.target.value))}/>
       </div>
 
       <div>
         <label>Comment:</label>
-        <textarea />
+        <textarea value={comment} onChange={(e) => setComment(e.target.value)}/>
       </div>
+
+      <ButtonContainer>
+        <SaveButton onClick={handleSave}>Save</SaveButton>
+        <CloseButton onClick={onClose}>Close</CloseButton>
+      </ButtonContainer>
     </InfoPanel>
   );
 }
