@@ -49,7 +49,7 @@ function MovieInfoPanel({ movie, onClose, onSave }) {
 
   const handleSave = async () => {
     try {
-      const response = await fetch('/api/ratings', {
+      const response = await fetch('http://localhost:5000/api/ratings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,6 +74,7 @@ function MovieInfoPanel({ movie, onClose, onSave }) {
       onClose();
     } catch (error) {
       console.error('Error saving movie rating:', error);
+      onClose();
     }
   };
 
