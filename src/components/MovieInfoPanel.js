@@ -1,42 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useAuthStore from '../store/useAuthStore';
 
-const InfoPanel = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 1rem;
-  width: 400px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-`;
-
-const SaveButton = styled.button`
-  flex: 1;
-  margin-right: 0.5rem;
-`;
-
-const CloseButton = styled.button`
-  flex: 1;
-  margin-left: 0.5rem;
-`;
+// ... (styled components) ...
 
 function MovieInfoPanel({ movie, onClose, onSave }) {
   const [rating, setRating] = useState(1);
@@ -45,11 +11,56 @@ function MovieInfoPanel({ movie, onClose, onSave }) {
   const token = useAuthStore((state) => state.token);
   const userId = useAuthStore((state) => state.user?.id);
 
+  useEffect(() => {
+    const fetchRatingData = async () => {
+      if (movie && userId && token) {
+        try {
+          const response = await fetch(`/api/movies/${movie.imdbID}/ratings`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.ok) {
+            const ratings = await response.json();
+            const userRating = ratings.find((r) => r.user_id === userId);
+
+            if (userRating) {
+              setRating(userRating.rating);
+              setComment(userRating.comment);
+              setWatched(userRating.watched);
+            } else {
+              setRating(1);
+              setComment('');
+              setWatched(false);
+            }
+          } else {
+            console.error('Error fetching rating data:', response.status);
+            setRating(1);
+            setComment('');
+            setWatched(false);
+          }
+        } catch (error) {
+          console.error('Error fetching rating data:', error);
+          setRating(1);
+          setComment('');
+          setWatched(false);
+        }
+      } else {
+        setRating(1);
+        setComment('');
+        setWatched(false);
+      }
+    };
+
+    fetchRatingData();
+  }, [movie, userId, token]);
+
   if (!movie) return null;
 
   const handleSave = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/ratings', {
+      const response = await fetch('/api/ratings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
